@@ -33,11 +33,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class RobotContainer {
-
   
-  final CommandXboxController driverXbox = new CommandXboxController(0); // Just because
+  final CommandXboxController driverXbox = new CommandXboxController(0); // This is declaring the xbox controller
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
+  //drivebase.getSwerveDrive().setGyroOffset(90);
  // final ElevatorSubsystem m_elevator = new ElevatorSubsystem(); // Init elevator in container
   //final ShooterSubsystem m_shooter = new ShooterSubsystem(); // Init shooter in container
   private final SendableChooser<Command> autoChooser; // Init auto chooser
@@ -77,8 +77,11 @@ public class RobotContainer {
   
   private void configureBindings() {
 
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
     drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+
+    //Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+   // drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
 
     // set our drive mode
    // setDriveMode();
@@ -198,14 +201,14 @@ public class RobotContainer {
     .allianceRelativeControl(true);
 
   /**
-   * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
+   * Clones the angular velocity input stream and converts it to a fieldRelative input stream.
    */
   SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
     .withControllerHeadingAxis(driverXbox::getRightX, driverXbox::getRightY)
     .headingWhile(true);
 
   /**
-   * Clone's the angular velocity input stream and converts it to a robotRelative input stream.
+   * Clones the angular velocity input stream and converts it to a robotRelative input stream.
    */
   SwerveInputStream driveRobotOriented = driveAngularVelocity.copy()
     .robotRelative(true)
